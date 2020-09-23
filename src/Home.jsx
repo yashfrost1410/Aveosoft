@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 function Home() {
   const [product, setproduct] = useState([]);
   const [filter, setfilter] = useState(2);
+  const [search, setSearch] = useState("");
   const classes = useStyles();
   useEffect(() => {
     const config = {
@@ -56,6 +57,9 @@ function Home() {
     console.log(event.target.value);
     setfilter(event.target.value);
   };
+  const changeHandler = (event) => {
+    setSearch(event.target.value);
+  };
   return (
     <Container className={classes.root}>
       <FormControl className={classes.formControl}>
@@ -71,39 +75,17 @@ function Home() {
           <MenuItem value={1}>Mobiles</MenuItem>
         </Select>
       </FormControl>
+      <input
+        type="text"
+        value={search}
+        name="search"
+        onChange={changeHandler}
+      ></input>
+
       <Grid container spacing={3}>
         {product &&
           product.map((item, key) => {
-            if (filter == 2) {
-              return (
-                <Grid key={item.id} item xs={12} sm={6} md={4}>
-                  <Link to={`/product/${item.id}`}>
-                    <Card className={classes.card}>
-                      <CardActionArea>
-                        <CardMedia
-                          component="img"
-                          alt="Contemplative Reptile"
-                          height="300"
-                          src={require("./sample.jpg")}
-                          title="Contemplative Reptile"
-                        />
-                        <CardContent>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            Name: {item.name}
-                          </Typography>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            Model: {item.model}
-                          </Typography>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            Price: {item.price}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Link>
-                </Grid>
-              );
-            } else if (filter == item.categoryId) {
+            if (search == item.name) {
               return (
                 <Grid key={item.id} item xs={12} sm={6} md={4}>
                   <Link to={`/product/${item.id}`}>
